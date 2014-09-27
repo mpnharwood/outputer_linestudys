@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @linestudy.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @linestudy.description %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @linestudy.type %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @linestudy.user_id %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @linestudy.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @linestudy.end_time %>
+</p>
+
+<%= link_to 'Edit', edit_linestudy_path(@linestudy) %> |
+<%= link_to 'Back', linestudies_path %>

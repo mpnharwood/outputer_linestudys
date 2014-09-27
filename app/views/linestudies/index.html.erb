@@ -1,0 +1,37 @@
+<h1>Listing linestudies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>User</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @linestudies.each do |linestudy| %>
+      <tr>
+        <td><%= linestudy.name %></td>
+        <td><%= linestudy.description %></td>
+        <td><%= linestudy.type %></td>
+        <td><%= linestudy.user_id %></td>
+        <td><%= linestudy.start_time %></td>
+        <td><%= linestudy.end_time %></td>
+        <td><%= link_to 'Show', linestudy %></td>
+        <td><%= link_to 'Edit', edit_linestudy_path(linestudy) %></td>
+        <td><%= link_to 'Destroy', linestudy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Linestudy', new_linestudy_path %>
