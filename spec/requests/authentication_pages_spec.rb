@@ -62,7 +62,29 @@ describe "Authentication" do
 						expect(page).to have_title('Edit user')
 					end
 				end
+
+				describe "when signing in again" do
+					before do
+						click_link "Sign out"
+						visit signin_path
+						fill_in "Email",    with: user.email
+						fill_in "Password", with: user.password
+						click_button "Sign in"
+					end
+
+					it "should render the default (profile) page" do
+						expect(page).to have_title(user.name)
+					end
+				end
 			end
+
+			describe "in the menu bar on any page" do
+				it { should_not have_title(user.name) }
+				it { should_not have_link('Users',       href: users_path) }
+				it { should_not have_link('Profile',     href: user_path(user)) }
+				it { should_not have_link('Settings',    href: edit_user_path(user)) }
+				it { should_not have_link('Sign out',    href: signout_path) }
+			end 
 			
 			describe "in the Users controller" do
 				describe "visiting the edit page" do
@@ -105,6 +127,27 @@ describe "Authentication" do
 			describe "submitting a DELETE request to the Users#destroy action" do
 				before { delete user_path(user) }
 				specify { expect(response).to redirect_to(root_url) }
+			end
+		end
+
+		describe "as admin user" do
+			let(:admin) { FactoryGirl.create(:admin) }
+			let(:another_admin) { FactoryGirl.create(:admin) }
+			let(:another_user) { FactoryGirl.create(:user) }
+			before do
+				sign_in admin
+				visit users_path
+			end
+			describe "admin submitting a DELETE request to the Users#destroy action" do
+				it "should delete a user" do
+					expect { delete user_path(another_user) }.to change(User, :count).by(1)
+				end
+				it "should delete another admin" do
+					expect { delete user_path(another_admin) }.to change(User, :count).by(1)
+				end
+				it "should not delete themselves" do
+					expect { delete user_path(admin) }.not_to change(User, :count)
+				end
 			end
 		end
 	end

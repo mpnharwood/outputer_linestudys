@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :signed_out_user, only: [:create, :new]
   before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
@@ -61,9 +62,14 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User deleted."
-    redirect_to users_url
+    @user = User.find(params[:id])
+    if current_user?(@user)
+      redirect_to users_path, notice: "You can't destroy yourself."
+    else
+      @user.destroy
+      flash[:success] = "User deleted."
+      redirect_to users_url
+    end 
   end
 
   private
@@ -78,6 +84,12 @@ class UsersController < ApplicationController
       unless signed_in?
         store_location
         redirect_to signin_url, notice: "Please sign in."
+      end
+    end
+
+    def signed_out_user
+      if signed_in?
+        redirect_to root_url
       end
     end
 
