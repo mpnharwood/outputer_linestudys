@@ -18,6 +18,8 @@ describe Linestudy do
 	it { should respond_to(:end_time) }
 	it { should respond_to(:user_id) }
 	it { should respond_to(:user) }
+	it { should respond_to(:events) }
+	its(:user) { should eq user }
 	it { should be_valid }
 
 	describe "when user_id is not present" do
@@ -88,4 +90,26 @@ describe Linestudy do
 	# 	it { should be_valid }
 	# end
 
+	describe "event associations" do
+		before { @linestudy.save }
+		let!(:older_event) do
+			FactoryGirl.create(:event, linestudy: @linestudy, user: user, created_at: 1.day.ago)
+		end
+		let!(:newer_event) do
+			FactoryGirl.create(:event, linestudy: @linestudy, user: user, created_at: 1.hour.ago)
+		end
+		it "should have the right events in the right order" do
+			expect(@linestudy.events.to_a).to eq [older_event, newer_event]
+		end
+
+		it "should destroy associated events" do
+			events = @linestudy.events.to_a
+			@linestudy.destroy
+			expect(events).not_to be_empty
+			events.each do |event|
+				expect(Event.where(id: event.id)).to be_empty
+			end
+		end
+
+	end
 end

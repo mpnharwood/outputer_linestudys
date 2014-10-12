@@ -1,34 +1,52 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, 'Linestudy') %>
+<div id="page-content" class="row">
+  <div class="col-md-12 well">
+    
+    <div class="float-left">
+      <p><%= @linestudy.description %></p>
+    </div>
+  </div>
+  <div class="col-md-12 well">
+    <%= link_to 'Back', '#',:id => 'back_to_results', :class =>"btn btn-warning" %>
+    <br><br>
+    <div class="table-responsive">
+      <table id='line-study-table' class="table table-bordered table-hover table-condensed">
+        <thead>
+          <tr>
+            <th class='col_id' style='display:none;'>ID</i></th>
+            <th class='col_icon'><i class="glyphicon-plus"></i></th>
+            <th class='col_sta'>Start</th>
+            <th class='col_end'>End</th>
+            <th class='col_dur'>Duration (minutes)</th>
+            <th class='col_des'>Description</th>
+            <th class='col_mac'>Machine Status</th>
+            <th class='col_spe'>Speed</th>
+            <th class='col_icon'></th>
+          </tr>
+        </thead>
+        <tbody>
 
-<p>
-  <strong>Name:</strong>
-  <%= @linestudy.name %>
-</p>
+          <% iter = 0 %> 
+          <% @events.each do |event| %>
+            <tr>
+              <td class='row_id' style='display:none;'><%= iter %></td>
+              <td><i class='glyphicon-plus'></i></td>
+              <td class='ls_row col_sta'><%= event.event_start.strftime "%H:%M:%S" %></td>
+              <td class='ls_row col_end'><%= event.event_stop.strftime "%H:%M:%S" %></td>
+              <td class='ls_row col_dur'><%= ((event.duration)) %></td>
+              <td class='ls_row col_des'><%= event.event_description %></td>
+              <td class='ls_row col_mac'><%= event.status %></td>
+              <td class='ls_row col_spe'><%= event.speed %></td>
+              <td><i class='glyphicon-minus'></i></td>
+            </tr>
+            <% iter = iter + 1 %>
+          <% end %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @linestudy.description %>
-</p>
 
-<p>
-  <strong>Category:</strong>
-  <%= @linestudy.category %>
-</p>
+        </tbody>
+      </table>
+    </div>
 
-<p>
-  <strong>User:</strong>
-  <%= @linestudy.user_id %>
-</p>
-
-<p>
-  <strong>Start time:</strong>
-  <%= @linestudy.start_time %>
-</p>
-
-<p>
-  <strong>End time:</strong>
-  <%= @linestudy.end_time %>
-</p>
-
-<%= link_to 'Edit', edit_linestudy_path(@linestudy) %> |
-<%= link_to 'Back', linestudies_path %>
+    <%= link_to 'Submit', '#', :id => "save_linestudy_link", :class =>"btn btn-warning",:ajax_path => linestudy_path %>
+  </div>
+</div>

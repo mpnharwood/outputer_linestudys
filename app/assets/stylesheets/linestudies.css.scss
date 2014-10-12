@@ -1,3 +1,63 @@
-// Place all the styles related to the Linestudies controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#study_index_title {
+	margin-bottom: 1vh;
+}
+
+#line_img_thumb {
+	float: left;
+	margin-right: 0.5vw;
+}
+
+.row_selected td { 
+	background-color: #009966 !important;  
+	color:white;
+}
+
+#line-study-table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+#line-study-table .col_icon {
+	width: 3%;
+}
+
+#line-study-table .col_sta, #line-study-table .col_end, #line-study-table .col_dur, #line-study-table .col_spe {
+	width: 10%;
+}
+
+#line-study-table #mac_val {
+	border: 1px solid rgb(204, 204, 204);
+	width: 26%;
+	margin: 2px;
+	font-size: 13px;
+	padding: 4px;
+	float: left;
+}
+
+#line-study-table .input-small, #line-study-table .input-xlarge, #line-study-table #btn-save-row  {
+	margin: 2px;
+}
+
+#line-study-table .input-small  {
+	width: 10%;
+}
+
+#line-study-table .input-xlarge  {
+	width: 26%;
+}
+
+.float-left {
+	float: left;
+	width: 85%
+}
+
+.study_info {
+	display: inline-block;
+	width: 85%;
+	float: left;
+}
+
+.study_checkbox {
+	display: inline-block;
+	width: 10%;
+}

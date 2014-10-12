@@ -1,5 +1,5 @@
 <li>
-  <span class="name"><%= linestudy.name %></span>
+  <span class="name"><%= link_to linestudy.name, linestudy %></span>
   <span class="description"><%= linestudy.description %></span>
   <span class="timestamp">
     Created <%= time_ago_in_words(linestudy.created_at) %> ago.
