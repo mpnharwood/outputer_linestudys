@@ -49,9 +49,18 @@ describe "User pages" do
 
 	describe "profile page" do
 		let(:user) { FactoryGirl.create(:user) }
+		let!(:ls1) { FactoryGirl.create(:linestudy, user: user, name: "line 1") }
+		let!(:ls2) { FactoryGirl.create(:linestudy, user: user, name: "line 2") }
 		before { visit user_path(user) }
+
 		it { should have_content(user.name) }
 		it { should have_title(user.name) }
+
+		describe "linestudies" do
+			it { should have_content(ls1.name) }
+			it { should have_content(ls2.name) }
+			it { should have_content(user.linestudies.count) }
+		end
 	end
 
 	describe "signup page" do
@@ -66,7 +75,6 @@ describe "User pages" do
 				visit signup_path
 			end
 			it { should_not have_title(full_title('Sign up')) }
-			it { should have_selector('h1', text: 'QuickStudy App') }
 			it { should have_title(full_title('')) }
 		end
 	end

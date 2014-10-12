@@ -8,22 +8,15 @@
       </h1>
     </section>
   </aside>
+
+  <div class="span8">
+    <% if @user.linestudies.any? %>
+      <h3>Linestudies (<%= @user.linestudies.count %>)</h3>
+      <ol class="linestudies">
+        <%= render @linestudies %>
+      </ol>
+      <%= will_paginate @linestudies %>
+    <% end %>
+  </div>
+
 </div>
-
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Organization:</strong>
-  <%= @user.organization %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>

@@ -17,6 +17,7 @@ describe User do
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:admin) }
 	it { should respond_to(:remember_token) }
+	it { should respond_to(:linestudies) }
 
 	it { should be_valid }
 	it { should_not be_admin }
@@ -119,5 +120,28 @@ describe User do
 	describe "remember token" do
 		before { @user.save }
 		its(:remember_token) { should_not be_blank }
+	end
+
+	describe "linestudy associations" do
+		before { @user.save }
+		let!(:older_linestudy) do
+			FactoryGirl.create(:linestudy, user: @user, created_at: 1.day.ago)
+		end
+		let!(:newer_linestudy) do
+			FactoryGirl.create(:linestudy, user: @user, created_at: 1.hour.ago)
+		end
+
+		it "should have the right linestudies in the right order" do
+			expect(@user.linestudies.to_a).to eq [newer_linestudy, older_linestudy]
+		end
+
+		it "should destroy associated linestudies" do
+			linestudies = @user.linestudies.to_a
+			@user.destroy
+			expect(linestudies).not_to be_empty
+			linestudies.each do |linestudy|
+				expect(Linestudy.where(id: linestudy.id)).to be_empty
+			end
+		end
 	end
 end

@@ -1,5 +1,5 @@
 class LinestudiesController < ApplicationController
-  before_action :set_linestudy, only: [:show, :edit, :update, :destroy]
+  before_action :signed_in_user, only: [:create, :show, :edit, :update, :destroy]
 
   # GET /linestudies
   # GET /linestudies.json
@@ -24,16 +24,12 @@ class LinestudiesController < ApplicationController
   # POST /linestudies
   # POST /linestudies.json
   def create
-    @linestudy = Linestudy.new(linestudy_params)
-
-    respond_to do |format|
-      if @linestudy.save
-        format.html { redirect_to @linestudy, notice: 'Linestudy was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @linestudy }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @linestudy.errors, status: :unprocessable_entity }
-      end
+    @linestudy = current_user.linestudies.build(linestudy_params)
+    if @linestudy.save
+      flash[:success] = "Linestudy created!"
+      redirect_to root_url
+    else
+      render 'static_pages/home'
     end
   end
 
@@ -69,6 +65,6 @@ class LinestudiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def linestudy_params
-      params.require(:linestudy).permit(:name, :description, :type, :user_id, :start_time, :end_time)
+      params.require(:linestudy).permit(:name, :description, :category, :start_time, :end_time)
     end
 end

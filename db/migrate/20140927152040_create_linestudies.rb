@@ -10,5 +10,6 @@ class CreateLinestudies < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :linestudies, [:user_id, :created_at]
   end
 end
